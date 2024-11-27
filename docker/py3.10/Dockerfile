@@ -1,10 +1,9 @@
-FROM python:3.10-bullseye
-WORKDIR /root/
+FROM python:3.10-bookworm
+WORKDIR /root
 ARG BRANCH="main"
 ARG NUM_CORES=2
 
-RUN echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" >> /etc/apt/sources.list.d/unstable.list &&\
-    apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     gcc-9 \
     g++-9 \
     git \
@@ -14,10 +13,11 @@ RUN echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" >>
     libgmpxx4ldbl \
     libboost-dev \
     libboost-thread-dev \
+    libc6\
     zip unzip patchelf && \
     apt-get clean
 
-RUN git clone --single-branch -b $BRANCH https://github.com/nuvolos-cloud/PyMesh.git
+RUN git clone --single-branch -b $BRANCH https://github.com/panallax/PyMesh.git
 
 ENV PYMESH_PATH /root/PyMesh
 ENV NUM_CORES $NUM_CORES
